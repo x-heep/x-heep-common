@@ -1,0 +1,70 @@
+CAPI=2:
+
+# Copyright 2026 EPFL.
+# Copyright and related rights are licensed under the Solderpad Hardware
+# License, Version 2.0 (the "License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http://solderpad.org/licenses/SHL-2.0. Unless required by applicable law
+# or agreed to in writing, software, hardware and materials distributed under
+# this License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+# CONDITIONS OF ANY KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations under the License.
+#
+# File: xheep-common-all.core
+# Author(s):
+#   Michele Caon <michele.caon@epfl.ch>
+# Date: 08/04/2026
+# Description: Top-level core file for X-HEEP common modules
+
+name: xheep:common:all:0.1.0
+description: X-HEEP common modules
+
+filesets:
+  # RTL SystemVerilog source files
+  rtl:
+    depend:
+    - xheep:common:mem:0.1.0
+    - xheep:common:obi:0.1.0
+
+targets:
+  # SystemVerilog RTL description
+  default: &default
+    filesets:
+    - rtl
+
+  # Format with Verible
+  format:
+    <<: *default
+    description: Format source files using verible-verilog-format
+    default_tool: veribleformat
+    toplevel: xheep_obi_splitter
+    tools:
+      veribleformat:
+        verible_format_args:
+        - '--column_limit=120'
+        - '--assignment_statement_alignment=align'
+        - '--case_items_alignment=align'
+        - '--formal_parameters_indentation=indent'
+        - '--named_parameter_alignment=align'
+        - '--named_parameter_indentation=indent'
+        - '--named_port_alignment=align'
+        - '--named_port_indentation=indent'
+        - '--port_declarations_alignment=align'
+        - '--port_declarations_indentation=indent'
+        - '--assignment_statement_alignment=align'
+        - '--module_net_variable_alignment=align'
+        - '--inplace'
+
+  # Static analysis
+  lint:
+    <<: *default
+    description: Perform static analysis using Verible
+    default_tool: veriblelint
+    toplevel: xheep_obi_splitter
+    tools:
+      veriblelint:
+        ruleset: default
+        verible_lint_args:
+        - '--waiver_files=../../../hw/misc/verible-lint.waiver'
+        rules:
+        - 'line-length=length:150'

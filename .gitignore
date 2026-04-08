@@ -1,0 +1,8 @@
+# Automatically created build directory
+build/
+
+# Private directory for user-specific files
+private/
+
+# Common IDE directories
+.vscode/
