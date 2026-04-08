@@ -34,6 +34,16 @@ ROOT		:= $(shell git rev-parse --show-toplevel)
 .PHONY: all
 all: format lint
 
+# Help
+# ----
+.PHONY: help
+help:
+	@printf "Available targets:\\n"
+	@printf "  all:      Run format and lint targets (default)\\n"
+	@printf "  format:   Format SystemVerilog source files using Verible\\n"
+	@printf "  lint:     Perform static analysis using Verible\\n"
+	@printf "  help:     Print this help message\\n"
+
 # Code formatting and linting
 # ---------------------------
 # Code formatting
