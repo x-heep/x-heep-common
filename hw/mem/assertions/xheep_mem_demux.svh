@@ -14,8 +14,8 @@
 // Date: 08/09/2025
 // Description: Assertions for xheep_mem_demux module.
 
-`ifndef CARUS_MEM_TO_VRF_SVH_
-`define CARUS_MEM_TO_VRF_SVH_
+`ifndef XHEEP_MEM_DEMUX_SVH_
+`define XHEEP_MEM_DEMUX_SVH_
 
 function automatic bit xheep_mem_demux();
   // Memory data width must be a multiple of 8
@@ -31,5 +31,5 @@ endfunction: xheep_mem_demux
 
 localparam bit _ = xheep_mem_demux();
 
-`endif /* CARUS_MEM_TO_VRF_SVH_ */
+`endif /* XHEEP_MEM_DEMUX_SVH_ */
 
