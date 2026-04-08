@@ -16,5 +16,5 @@
 
 `verilator_config
 // Handle trivial case where no splitter is needed (matching master and slave data width)
-lint_off -rule UNUSED -file "*/carus_obi_splitter.sv" -match "Bits of signal are not used: 'master_req_addr_q'[*]"
-lint_off -rule UNUSED -file "*/carus_obi_splitter.sv" -match "Bits of signal are not used: 'req_mask'[*]"
+lint_off -rule UNUSED -file "*/xheep_obi_splitter.sv" -match "Bits of signal are not used: 'master_req_addr_q'[*]"
+lint_off -rule UNUSED -file "*/xheep_obi_splitter.sv" -match "Bits of signal are not used: 'req_mask'[*]"
