@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    container: ghcr.io/x-heep/x-heep-toolchain:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Trust repository
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Run Linting
+        run: make lint
+      - name: Run Formatting
+        run: make format
+      - name: Check Formatting
+        run: |
+          if ! git diff --exit-code; then
+            echo "Error: Files were modified after running 'make format'."
+            echo "Please run 'make format' locally and commit the changes."
+            exit 1
+          fi
