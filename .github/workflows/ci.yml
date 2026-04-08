@@ -16,8 +16,10 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Run Linting
+        shell: bash -le {0}
         run: make lint
       - name: Run Formatting
+        shell: bash -le {0}
         run: make format
       - name: Check Formatting
         run: |
