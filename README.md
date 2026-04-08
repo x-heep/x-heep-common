@@ -16,7 +16,7 @@ The goal is to provide simple, reusable, and well-maintained modules—such as b
 Contributions are welcome! If you have developed a module that could benefit other X-HEEP users, please consider contributing it to this repository. When adding new content, please follow these guidelines:
 
 1.  **Directory Organization**: Honor the existing structure. Place RTL modules in `hw/<category>/` and include a corresponding `.core` file for FuseSoC.
-2.  **FuseSoC Integration**: Always update or create `.core` files to include any new additions and ensure they are properly linked in `xheep-common-all.core`.
+2.  **FuseSoC Integration**: Always update or create `.core` files to include any new additions and ensure they are properly linked in `xheep-common-all.core`. Also remember to increment the SemVer number whenever you make changes.
 3.  **Documentation**:
     *   Update this `README.md` with a brief description of the new files in the table above.
     *   Thoroughly comment your code to help other users understand and use your module.
