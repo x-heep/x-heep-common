@@ -51,9 +51,9 @@ module xheep_obi_to_reg #(
   output reg_req_t reg_req_o,  // register interface request
   input  reg_rsp_t reg_rsp_i   // register interface response
 );
-    // PARAMETERS
+  // PARAMETERS
   // ----------
-  localparam int unsigned DataW = $bits(type(obi_req_i.wdata));
+  localparam int unsigned DataW = $bits(type (obi_req_i.wdata));
 
   // INTERNAL SIGNALS
   // ----------------
