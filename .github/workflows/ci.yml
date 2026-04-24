@@ -9,18 +9,33 @@ on:
 jobs:
   lint-and-format:
     runs-on: ubuntu-latest
-    container: ghcr.io/x-heep/x-heep/x-heep-toolchain:latest
     steps:
       - uses: actions/checkout@v4
-      - name: Trust repository
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install FuseSoC
         run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          pip install git+https://github.com/x-heep/fusesoc.git@ot#egg=fusesoc
+
+      - name: Install Verible
+        run: |
+          VERIBLE_VERSION=v0.0-4023-gc1271a00
+          URL="https://github.com/chipsalliance/verible/releases/download/${VERIBLE_VERSION}/verible-${VERIBLE_VERSION}-linux-static-x86_64.tar.gz"
+          wget "$URL" -q -O verible.tar.gz
+          mkdir -p verible-bin
+          tar -xzf verible.tar.gz -C verible-bin --strip-components=1
+          echo "$GITHUB_WORKSPACE/verible-bin/bin" >> $GITHUB_PATH
+
       - name: Run Linting
-        shell: bash -le {0}
         run: make lint
+
       - name: Run Formatting
-        shell: bash -le {0}
         run: make format
+
       - name: Check Formatting
         run: |
           if ! git diff --exit-code; then
