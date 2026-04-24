@@ -53,7 +53,7 @@ module xheep_obi_to_sram #(
 );
   // INTERNAL SIGNALS
   // ----------------
-  logic obi_rvalid[DELAY+1];
+  logic obi_rvalid[LATENCY+1];
 
   // OBI rvalid delay chain
   // ----------------------
@@ -64,7 +64,7 @@ module xheep_obi_to_sram #(
   //       including store request for which no data is provided by the slave.
   assign obi_rvalid[0] = obi_req_i.req;
   generate
-    for (genvar i = 1; unsigned'(i) <= DELAY; i++) begin : gen_rvalid_delay
+    for (genvar i = 1; unsigned'(i) <= LATENCY; i++) begin : gen_rvalid_delay
       always_ff @(posedge clk_i or negedge rst_ni) begin
         if (!rst_ni) begin
           obi_rvalid[i] <= 1'b0;
@@ -87,6 +87,6 @@ module xheep_obi_to_sram #(
 
   // SRAM response to OBI response
   assign obi_rsp_o.gnt    = 1'b1;  // SRAM slways ready to accept requests
-  assign obi_rsp_o.rvalid = obi_rvalid[DELAY];
+  assign obi_rsp_o.rvalid = obi_rvalid[LATENCY];
   assign obi_rsp_o.rdata  = sram_rsp_i.rdata;
 endmodule
