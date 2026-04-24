@@ -41,3 +41,7 @@ targets:
     filesets:
     - rtl
     - tool_verilator ? (verilator-waivers)
+    toplevel:
+    - xheep_obi_splitter
+    - xheep_obi_to_reg
+    - xheep_obi_to_sram

@@ -39,3 +39,5 @@ targets:
     filesets:
     - rtl
     - tool_verilator ? (verilator-waivers)
+    toplevel:
+    - xheep_mem_demux
