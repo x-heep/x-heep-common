@@ -1,0 +1,39 @@
+// Copyright (c) 2026 EPFL.
+// Copyright and related rights are licensed under the Solderpad Hardware
+// License, Version 2.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://solderpad.org/licenses/SHL-2.0. Unless required by applicable law
+// or agreed to in writing, software, hardware and materials distributed under
+// this License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+//
+// File: x-heep.vendor.hjson
+// Author(s):
+//   Michele Caon <michele.caon@epfl.ch>
+// Date: 28/04/2026
+// Description: X-HEEP vendor file for third-party dependencies
+
+{
+  name: "x-heep",
+  target_dir: "x-heep",
+
+  upstream: {
+    url: "https://github.com/x-heep/x-heep.git",
+    rev: "a85828195fc2ad28195a8462320e1c26559ecc5e",
+  },
+
+  mapping: [
+    {from: "LICENSE", to: "LICENSE"},
+
+    // Utilities
+    {from: "util/vendor.py",        to: "util/vendor.py"      },
+    {from: "util/check-vendor.py",  to: "util/check-vendor.py"},
+
+    // Third-party IPs
+    {from: "hw/vendor/pulp_platform/common_cells/LICENSE",            to: "common_cells/LICENSE"},
+    {from: "hw/vendor/pulp_platform/common_cells/src",                to: "common_cells/src"},
+    {from: "hw/vendor/pulp_platform/common_cells/include",            to: "common_cells/include"},
+    {from: "hw/vendor/pulp_platform/common_cells/common_cells.core",  to: "common_cells/common_cells.core"},
+  ],
+}
