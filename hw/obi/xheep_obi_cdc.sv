@@ -71,7 +71,7 @@ module xheep_obi_cdc #(
     .async_data_o(src_data),
     .async_req_i (dst_req),
     .async_ack_o (dst_ack),
-    .asynch_rsp_i(dst_data)
+    .async_data_i(dst_data)
   );
 
   // Destination CDC
@@ -84,7 +84,7 @@ module xheep_obi_cdc #(
     .dst_rsp_i   (dst_rsp_i),
     .async_req_i (src_req),
     .async_ack_o (src_ack),
-    .asynch_rsp_i(src_data),
+    .async_data_i(src_data),
     .async_req_o (dst_req),
     .async_ack_i (dst_ack),
     .async_data_o(dst_data)
