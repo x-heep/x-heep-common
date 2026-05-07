@@ -57,10 +57,10 @@ module xheep_obi_splitter #(
   input  slave_rsp_t slave_rsp_i
 );
   // PARAMETERS
-  localparam int unsigned MasterDataW = $bits(type (master_req_i.wdata));
-  localparam int unsigned MasterAddrW = $bits(type (master_req_i.addr));
-  localparam int unsigned SlaveAddrW = $bits(type (slave_req_o.addr));
-  localparam int unsigned SlaveDataW = $bits(type (slave_req_o.wdata));
+  localparam int unsigned MasterDataW = $bits(master_req_i.wdata);
+  localparam int unsigned MasterAddrW = $bits(master_req_i.addr);
+  localparam int unsigned SlaveAddrW = $bits(slave_req_o.addr);
+  localparam int unsigned SlaveDataW = $bits(slave_req_o.wdata);
   localparam int unsigned SlaveWordByteNum = SlaveDataW / 8;
   localparam int unsigned WordNum = MasterDataW / SlaveDataW;
   localparam int unsigned WordIdxW = unsigned'($clog2(WordNum));
