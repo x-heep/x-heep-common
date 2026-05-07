@@ -18,10 +18,10 @@
 `define XHEEP_OBI_SPLITTER_SVH_
 
 function automatic bit xheep_obi_splitter_check_params();
-  int unsigned master_data_width = $bits(master_req_i.wdata);
-  int unsigned slave_data_width = $bits(slave_req_o.wdata);
-  int unsigned master_addr_width = $bits(master_req_i.addr);
-  int unsigned slave_addr_width = $bits(slave_req_o.addr);
+  int unsigned master_data_width = $bits(type(master_req_i.wdata));
+  int unsigned slave_data_width = $bits(type(slave_req_o.wdata));
+  int unsigned master_addr_width = $bits(type(master_req_i.addr));
+  int unsigned slave_addr_width = $bits(type(slave_req_o.addr));
 
   // master_data_width and slave_data_width must be power of two higher than 8
   if ((master_data_width & (master_data_width - 1)) != 0 || master_data_width < 8)
