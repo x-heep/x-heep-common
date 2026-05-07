@@ -54,8 +54,8 @@ module xheep_mem_demux #(
   input  slave_rsp_t vrf_rsp_i   // VRF response
 );
   // PARAMETERS
-  localparam int unsigned MemDataW = $bits(type(mem_req_i.wdata));
-  localparam int unsigned VrfDataW = $bits(type(vrf_req_o.wdata));
+  localparam int unsigned MemDataW = $bits(type (mem_req_i.wdata));
+  localparam int unsigned VrfDataW = $bits(type (vrf_req_o.wdata));
   localparam int unsigned MemWordNumBytes = MemDataW / 8;
   localparam int unsigned MemByteOffsW = $clog2(MemWordNumBytes);
   localparam int unsigned VrfLineWordNum = VrfDataW / MemDataW;
