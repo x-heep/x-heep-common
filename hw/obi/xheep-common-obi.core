@@ -16,7 +16,7 @@ CAPI=2:
 # Date: 08/04/2026
 # Description: X-HEEP Common OBI bus modules
 
-name: xheep:common:obi:0.1.0
+name: xheep:common:obi:0.2.0
 description: X-HEEP common OBI modules
 
 filesets:
