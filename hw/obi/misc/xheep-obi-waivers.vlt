@@ -19,3 +19,8 @@
 lint_off -rule UNUSED -file "*/xheep_obi_splitter.sv" -match "Bits of signal are not used: 'master_req_addr_q'[*]"
 lint_off -rule UNUSED -file "*/xheep_obi_splitter.sv" -match "Bits of signal are not used: 'req_mask'[*]"
 lint_off -rule UNUSED -file "*/xheep_obi_to_reg.sv"   -match "Bits of signal are not*used: 'reg_rsp_i*"
+
+// Unused req, gnt and rvalid in OBI CDCs
+lint_off -rule UNUSEDSIGNAL -file "*/xheep_obi_cdc_src.sv" -match "Bits of signal are not used: 'src_rsp'[*]"
+lint_off -rule UNUSEDSIGNAL -file "*/xheep_obi_cdc_dst.sv" -match "Bits of signal are not used: 'dst_req'[*]"
+lint_off -rule UNUSEDSIGNAL -file "*/xheep_obi_cdc_dst.sv" -match "Bits of signal are not used: 'dst_rsp_m'[*]"
