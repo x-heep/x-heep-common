@@ -155,7 +155,7 @@ module xheep_obi_cdc_dst #(
   end
 
   // Response data multiplexer
-  assign dst_rsp_m       = (rsp_sel_reg) ? dst_rsp_i : dst_rsp_q;
+  assign dst_rsp_m       = (rsp_sel_reg) ? dst_rsp_q : dst_rsp_i;
 
   // --------------------------------------------------------------------------
   // SOURCE CDC MODULE
@@ -178,7 +178,7 @@ module xheep_obi_cdc_dst #(
     if (CDC_KIND == "cdc_4phase") begin : gen_req_cdc_4phase
       cdc_4phase_src #(
         .T(obi_rsp_t)
-      ) u_req_cdc_src (
+      ) u_rsp_cdc_src (
         .rst_ni      (dst_rst_ni),
         .clk_i       (dst_clk_i),
         .data_i      (dst_rsp),
@@ -191,7 +191,7 @@ module xheep_obi_cdc_dst #(
     end else if (CDC_KIND == "cdc_2phase") begin : gen_req_cdc_2phase
       cdc_2phase_src #(
         .T(obi_rsp_t)
-      ) u_req_cdc_src (
+      ) u_rsp_cdc_src (
         .rst_ni      (dst_rst_ni),
         .clk_i       (dst_clk_i),
         .data_i      (dst_rsp),
@@ -212,7 +212,7 @@ module xheep_obi_cdc_dst #(
     if (CDC_KIND == "cdc_4phase") begin : gen_rsp_cdc_4phase
       cdc_4phase_dst #(
         .T(obi_req_t)
-      ) u_rsp_cdc_dst (
+      ) u_req_cdc_dst (
         .rst_ni      (dst_rst_ni),
         .clk_i       (dst_clk_i),
         .data_o      (dst_req),
@@ -225,7 +225,7 @@ module xheep_obi_cdc_dst #(
     end else if (CDC_KIND == "cdc_2phase") begin : gen_rsp_cdc_2phase
       cdc_2phase_dst #(
         .T(obi_req_t)
-      ) u_rsp_cdc_dst (
+      ) u_req_cdc_dst (
         .rst_ni      (dst_rst_ni),
         .clk_i       (dst_clk_i),
         .data_o      (dst_req),
