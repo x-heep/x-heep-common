@@ -177,26 +177,26 @@ module xheep_obi_cdc_dst #(
   generate
     if (CDC_KIND == "cdc_4phase") begin : gen_req_cdc_4phase
       cdc_4phase_src #(
-        .T(obi_req_t)
+        .T(obi_rsp_t)
       ) u_req_cdc_src (
         .rst_ni      (dst_rst_ni),
         .clk_i       (dst_clk_i),
-        .data_i      (dst_req),
-        .valid_i     (dst_cdc_req_valid),
-        .ready_o     (dst_cdc_req_ready),
+        .data_i      (dst_rsp),
+        .valid_i     (dst_cdc_rsp_valid),
+        .ready_o     (dst_cdc_rsp_ready),
         .async_req_o (async_req_o),
         .async_ack_i (async_ack_i),
         .async_data_o(async_data_o)
       );
     end else if (CDC_KIND == "cdc_2phase") begin : gen_req_cdc_2phase
       cdc_2phase_src #(
-        .T(obi_req_t)
+        .T(obi_rsp_t)
       ) u_req_cdc_src (
         .rst_ni      (dst_rst_ni),
         .clk_i       (dst_clk_i),
-        .data_i      (dst_req),
-        .valid_i     (dst_cdc_req_valid),
-        .ready_o     (dst_cdc_req_ready),
+        .data_i      (dst_rsp),
+        .valid_i     (dst_cdc_rsp_valid),
+        .ready_o     (dst_cdc_rsp_ready),
         .async_req_o (async_req_o),
         .async_ack_i (async_ack_i),
         .async_data_o(async_data_o)
@@ -211,26 +211,26 @@ module xheep_obi_cdc_dst #(
   generate
     if (CDC_KIND == "cdc_4phase") begin : gen_rsp_cdc_4phase
       cdc_4phase_dst #(
-        .T(obi_rsp_t)
+        .T(obi_req_t)
       ) u_rsp_cdc_dst (
         .rst_ni      (dst_rst_ni),
         .clk_i       (dst_clk_i),
-        .data_o      (dst_rsp_m),
-        .valid_o     (dst_cdc_rsp_valid),
-        .ready_i     (dst_cdc_rsp_ready),
+        .data_o      (dst_req),
+        .valid_o     (dst_cdc_req_valid),
+        .ready_i     (dst_cdc_req_ready),
         .async_req_i (async_req_i),
         .async_ack_o (async_ack_o),
         .async_data_i(async_data_i)
       );
     end else if (CDC_KIND == "cdc_2phase") begin : gen_rsp_cdc_2phase
       cdc_2phase_dst #(
-        .T(obi_rsp_t)
+        .T(obi_req_t)
       ) u_rsp_cdc_dst (
         .rst_ni      (dst_rst_ni),
         .clk_i       (dst_clk_i),
-        .data_o      (dst_rsp_m),
-        .valid_o     (dst_cdc_rsp_valid),
-        .ready_i     (dst_cdc_rsp_ready),
+        .data_o      (dst_req),
+        .valid_o     (dst_cdc_req_valid),
+        .ready_i     (dst_cdc_req_ready),
         .async_req_i (async_req_i),
         .async_ack_o (async_ack_o),
         .async_data_i(async_data_i)
