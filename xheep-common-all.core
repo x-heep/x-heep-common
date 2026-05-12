@@ -16,7 +16,7 @@ CAPI=2:
 # Date: 08/04/2026
 # Description: Top-level core file for X-HEEP common modules
 
-name: xheep:common:all:0.1.0
+name: xheep:common:all:0.2.0
 description: X-HEEP common modules
 
 filesets:
@@ -24,7 +24,7 @@ filesets:
   rtl:
     depend:
     - xheep:common:mem:0.1.0
-    - xheep:common:obi:0.1.0
+    - xheep:common:obi:0.2.0
 
 targets:
   # SystemVerilog RTL description

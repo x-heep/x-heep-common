@@ -53,7 +53,7 @@ module xheep_obi_to_reg #(
 );
   // PARAMETERS
   // ----------
-  localparam int unsigned DataW = $bits(type (obi_req_i.wdata));
+  localparam int unsigned DataW = $bits(obi_req_i.wdata);
 
   // INTERNAL SIGNALS
   // ----------------

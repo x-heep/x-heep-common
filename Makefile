@@ -25,6 +25,10 @@ MAKEFLAGS 	+= --output-sync=target \
 # ROOT DIRECTORY
 ROOT		:= $(shell git rev-parse --show-toplevel)
 
+# VENDOR FILES
+VENDOR_FILES	:= $(shell find hw/vendor -maxdepth 1 -type f -name "*.vendor.hjson" -print)
+VENDOR_LOCKS	:= $(subst .vendor.hjson,.lock.hjson,$(VENDOR_FILES))
+
 #######################
 # ----- TARGETS ----- #
 #######################
@@ -55,6 +59,21 @@ format: | .check-verible-format
 .PHONY: lint
 lint: | .check-verible-lint
 	fusesoc run --no-export --target lint xheep:common:all
+
+# Vendor third-party dependencies
+# --------------------------------------------------------------------------
+.PHONY: vendor-update
+vendor-update: $(VENDOR_LOCKS)
+	python3 hw/vendor/x-heep/util/check-vendor.py
+
+$(VENDOR_LOCKS): %.lock.hjson: %.vendor.hjson hw/vendor/x-heep/util/vendor.py
+	@echo "### Updating vendored IP '$(notdir $*)'..."
+	python3 hw/vendor/x-heep/util/vendor.py -vU $<
+
+.PHONY: vendor-clean
+vendor-clean:
+	@echo "### Cleaning vendor IPs..."
+	$(RM) $(VENDOR_LOCKS)
 
 # Utilities
 # ---------

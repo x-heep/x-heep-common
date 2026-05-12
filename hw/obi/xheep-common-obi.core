@@ -16,7 +16,7 @@ CAPI=2:
 # Date: 08/04/2026
 # Description: X-HEEP Common OBI bus modules
 
-name: xheep:common:obi:0.1.0
+name: xheep:common:obi:0.2.0
 description: X-HEEP common OBI modules
 
 filesets:
@@ -26,7 +26,16 @@ filesets:
     - xheep_obi_splitter.sv
     - xheep_obi_to_reg.sv
     - xheep_obi_to_sram.sv
+    - xheep_obi_cdc_dst.sv
+    - xheep_obi_cdc_src.sv
+    - xheep_obi_cdc.sv
     - assertions/xheep_obi_splitter.svh: {is_include_file: true}
+    file_type: systemVerilogSource
+
+  # Third-party RTL modules
+  rtl-vendor:
+    depend:
+    - pulp-platform.org::common_cells
     file_type: systemVerilogSource
 
   # Verilator waiver file
@@ -40,8 +49,10 @@ targets:
   default: &default
     filesets:
     - rtl
+    - rtl_vendor ? (rtl-vendor)
     - tool_verilator ? (verilator-waivers)
     toplevel:
     - xheep_obi_splitter
     - xheep_obi_to_reg
     - xheep_obi_to_sram
+    - xheep_obi_cdc
