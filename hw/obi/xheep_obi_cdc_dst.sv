@@ -46,10 +46,10 @@ module xheep_obi_cdc_dst #(
   // Asynchronous signals
   input  logic     async_req_i,
   output logic     async_ack_o,
-  input  obi_rsp_t async_data_i,
+  input  obi_req_t async_data_i,
   output logic     async_req_o,
   input  logic     async_ack_i,
-  output obi_req_t async_data_o
+  output obi_rsp_t async_data_o
 );
   // INTERNAL SIGNALS
   // --------------------------------------------------------------------------
