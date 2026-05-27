@@ -15,6 +15,8 @@
 // Description: OBI to register interface bridged
 
 module xheep_obi_to_reg #(
+  // These are necessary to avoid errors with using $bits() in QuestaSim
+  parameter int unsigned DW = 32'd32,  // data width
   // OBI request type, expected to contain:
   //    logic           req     > request
   //    logic           we      > write enable
@@ -51,14 +53,10 @@ module xheep_obi_to_reg #(
   output reg_req_t reg_req_o,  // register interface request
   input  reg_rsp_t reg_rsp_i   // register interface response
 );
-  // PARAMETERS
-  // ----------
-  localparam int unsigned DataW = $bits(obi_req_i.wdata);
-
   // INTERNAL SIGNALS
   // ----------------
   logic rvalid_d, rvalid_q;
-  logic [DataW-1:0] rdata_d, rdata_q;
+  logic [DW-1:0] rdata_d, rdata_q;
 
   // OBI response register
   // ---------------------

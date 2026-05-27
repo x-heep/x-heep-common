@@ -19,12 +19,12 @@
 
 function automatic bit xheep_mem_demux();
   // Memory data width must be a multiple of 8
-  if (MemDataW % 8 != 0)
-    $fatal(1, "MemDataW (%d) must be a multiple of 8!", MemDataW);
+  if (M_DW % 8 != 0)
+    $fatal(1, "M_DW (%d) must be a multiple of 8!", M_DW);
 
   // VRF data width must be a multiple of memory data width
-  if (VrfDataW % MemDataW != 0)
-    $fatal(1, "VrfDataW (%d) must be a multiple of MemDataW (%d)!", VrfDataW, MemDataW);
+  if (S_DW % M_DW != 0)
+    $fatal(1, "S_DW (%d) must be a multiple of M_DW (%d)!", S_DW, M_DW);
 
   return 1'b0;
 endfunction: xheep_mem_demux
