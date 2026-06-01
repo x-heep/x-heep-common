@@ -16,7 +16,7 @@
 
 module xheep_obi_cdc #(
   // Clock domain crossing protocol type
-  parameter string CDC_KIND  = "cdc_2phase",  // "cdc_2phase" or "cdc_4phase"
+  parameter int unsigned CDC_KIND  = 0,  // "cdc_2phase"==0 or "cdc_4phase"==1
   // OBI request type, expected to contain:
   //    logic           req     > request
   //    logic           we      > write enable

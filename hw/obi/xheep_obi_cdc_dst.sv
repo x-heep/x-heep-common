@@ -21,7 +21,7 @@
 
 module xheep_obi_cdc_dst #(
   // Clock domain crossing protocol type
-  parameter string CDC_KIND  = "cdc_2phase",  // "cdc_2phase" or "cdc_4phase"
+  parameter int unsigned CDC_KIND  = 0,  // "cdc_2phase"==0 or "cdc_4phase"==1
   // OBI request type, expected to contain:
   //    logic           req     > request
   //    logic           we      > write enable
@@ -175,7 +175,7 @@ module xheep_obi_cdc_dst #(
   // Destination request CDC
   // --------------------------------------------------------------------------
   generate
-    if (CDC_KIND == "cdc_4phase") begin : gen_req_cdc_4phase
+    if (CDC_KIND == 1) begin : gen_req_cdc_4phase
       cdc_4phase_src #(
         .T(obi_rsp_t)
       ) u_rsp_cdc_src (
@@ -188,7 +188,7 @@ module xheep_obi_cdc_dst #(
         .async_ack_i (async_ack_i),
         .async_data_o(async_data_o)
       );
-    end else if (CDC_KIND == "cdc_2phase") begin : gen_req_cdc_2phase
+    end else if (CDC_KIND == 0) begin : gen_req_cdc_2phase
       cdc_2phase_src #(
         .T(obi_rsp_t)
       ) u_rsp_cdc_src (
@@ -209,7 +209,7 @@ module xheep_obi_cdc_dst #(
   // Destination response CDC
   // --------------------------------------------------------------------------
   generate
-    if (CDC_KIND == "cdc_4phase") begin : gen_rsp_cdc_4phase
+    if (CDC_KIND == 1) begin : gen_rsp_cdc_4phase
       cdc_4phase_dst #(
         .T(obi_req_t)
       ) u_req_cdc_dst (
@@ -222,7 +222,7 @@ module xheep_obi_cdc_dst #(
         .async_ack_o (async_ack_o),
         .async_data_i(async_data_i)
       );
-    end else if (CDC_KIND == "cdc_2phase") begin : gen_rsp_cdc_2phase
+    end else if (CDC_KIND == 0) begin : gen_rsp_cdc_2phase
       cdc_2phase_dst #(
         .T(obi_req_t)
       ) u_req_cdc_dst (
