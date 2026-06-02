@@ -18,19 +18,19 @@
 `define XHEEP_OBI_SPLITTER_SVH_
 
 function automatic bit xheep_obi_splitter_check_params();
-  // MasterDataW and SlaveDataW must be power of two higher than 8
-  if ((MasterDataW & (MasterDataW - 1)) != 0 || MasterDataW < 8)
-    $fatal(1, "The bitwidth of master_req_i.wdata must be a power of 2 and > 8, got %d!", MasterDataW);
-  if ((SlaveDataW & (SlaveDataW - 1)) != 0 || SlaveDataW < 8)
-    $fatal(1, "The bitwidth of slave_req_o.wdata must be a power of 2 and > 8, got %d!", SlaveDataW);
+  // M_DW and S_DW must be power of two higher than 8
+  if ((M_DW & (M_DW - 1)) != 0 || M_DW < 8)
+    $fatal(1, "The bitwidth of master_req_i.wdata must be a power of 2 and > 8, got %d!", M_DW);
+  if ((S_DW & (S_DW - 1)) != 0 || S_DW < 8)
+    $fatal(1, "The bitwidth of slave_req_o.wdata must be a power of 2 and > 8, got %d!", S_DW);
 
-  // MasterDataW must be a multiple of SlaveDataW
-  if (MasterDataW % SlaveDataW != 0)
-    $fatal(1, "The bitwidth of master_req_i.wdata must be a multiple of slave_req_o.wdata, got %d and %d respectively!", MasterDataW, SlaveDataW);
+  // M_DW must be a multiple of S_DW
+  if (M_DW % S_DW != 0)
+    $fatal(1, "The bitwidth of master_req_i.wdata must be a multiple of slave_req_o.wdata, got %d and %d respectively!", M_DW, S_DW);
 
   // The slave address width must be larger than the master address width
-  if (MasterAddrW > SlaveAddrW)
-    $fatal(1, "The bitwidth of master_req_i.addr must be <= slave_req_o.addr, got %d and %d respectively!", MasterAddrW, SlaveAddrW);
+  if (M_AW > S_AW)
+    $fatal(1, "The bitwidth of master_req_i.addr must be <= slave_req_o.addr, got %d and %d respectively!", M_AW, S_AW);
 
   return 1'b0;
 endfunction: xheep_obi_splitter_check_params

@@ -21,7 +21,7 @@
 
 module xheep_obi_cdc_dst #(
   // Clock domain crossing protocol type
-  parameter CDC_KIND = "cdc_2phase",  // "cdc_2phase" or "cdc_4phase"
+  parameter int unsigned CDC_KIND = 32'd2,  // 2 for "cdc_2phase" or 4 for "cdc_4phase"
   // OBI request type, expected to contain:
   //    logic           req     > request
   //    logic           we      > write enable
@@ -175,7 +175,7 @@ module xheep_obi_cdc_dst #(
   // Destination request CDC
   // --------------------------------------------------------------------------
   generate
-    if (CDC_KIND == "cdc_4phase") begin : gen_req_cdc_4phase
+    if (CDC_KIND == 4) begin : gen_req_cdc_4phase
       cdc_4phase_src #(
         .T(obi_rsp_t)
       ) u_rsp_cdc_src (
@@ -188,7 +188,7 @@ module xheep_obi_cdc_dst #(
         .async_ack_i (async_ack_i),
         .async_data_o(async_data_o)
       );
-    end else if (CDC_KIND == "cdc_2phase") begin : gen_req_cdc_2phase
+    end else if (CDC_KIND == 2) begin : gen_req_cdc_2phase
       cdc_2phase_src #(
         .T(obi_rsp_t)
       ) u_rsp_cdc_src (
@@ -202,14 +202,14 @@ module xheep_obi_cdc_dst #(
         .async_data_o(async_data_o)
       );
     end else begin : gen_req_elab_error
-      $error("Unknown CDC_KIND %s", CDC_KIND);
+      $error("Unknown CDC_KIND %d", CDC_KIND);
     end
   endgenerate
 
   // Destination response CDC
   // --------------------------------------------------------------------------
   generate
-    if (CDC_KIND == "cdc_4phase") begin : gen_rsp_cdc_4phase
+    if (CDC_KIND == 4) begin : gen_rsp_cdc_4phase
       cdc_4phase_dst #(
         .T(obi_req_t)
       ) u_req_cdc_dst (
@@ -222,7 +222,7 @@ module xheep_obi_cdc_dst #(
         .async_ack_o (async_ack_o),
         .async_data_i(async_data_i)
       );
-    end else if (CDC_KIND == "cdc_2phase") begin : gen_rsp_cdc_2phase
+    end else if (CDC_KIND == 2) begin : gen_rsp_cdc_2phase
       cdc_2phase_dst #(
         .T(obi_req_t)
       ) u_req_cdc_dst (
@@ -236,7 +236,7 @@ module xheep_obi_cdc_dst #(
         .async_data_i(async_data_i)
       );
     end else begin : gen_rsp_elab_error
-      $error("Unknown CDC_KIND %s", CDC_KIND);
+      $error("Unknown CDC_KIND %d", CDC_KIND);
     end
   endgenerate
 endmodule

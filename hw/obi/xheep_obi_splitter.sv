@@ -20,6 +20,11 @@
 // below).
 
 module xheep_obi_splitter #(
+  // These are necessary to avoid errors with using $bits() in QuestaSim
+  parameter int unsigned M_DW = 32'd32,  // master data width
+  parameter int unsigned M_AW = 32'd32,  // master address width
+  parameter int unsigned S_DW = 32'd32,  // slave data width
+  parameter int unsigned S_AW = 32'd32,  // slave address width
   // OBI master request type, expected to contain:
   //    logic              req     > request
   //    logic              we      > write enable
@@ -38,12 +43,12 @@ module xheep_obi_splitter #(
   //    logic [S_DW/8-1:0] be      > byte enable
   //    logic   [S_AW-1:0] addr    > target address
   //    logic   [S_DW-1:0] wdata   > data to write
-  parameter type slave_req_t  = logic,
+  parameter type slave_req_t = logic,
   // OBI master response type, expected to contain:
   //    logic              gnt     > request accepted
   //    logic              rvalid  > read data is valid
   //    logic   [S_DW-1:0] rdata   > read data
-  parameter type slave_rsp_t  = logic
+  parameter type slave_rsp_t = logic
 ) (
   input logic clk_i,
   input logic rst_ni,
@@ -57,12 +62,8 @@ module xheep_obi_splitter #(
   input  slave_rsp_t slave_rsp_i
 );
   // PARAMETERS
-  localparam int unsigned MasterDataW = $bits(master_req_i.wdata);
-  localparam int unsigned MasterAddrW = $bits(master_req_i.addr);
-  localparam int unsigned SlaveAddrW = $bits(slave_req_o.addr);
-  localparam int unsigned SlaveDataW = $bits(slave_req_o.wdata);
-  localparam int unsigned SlaveWordByteNum = SlaveDataW / 8;
-  localparam int unsigned WordNum = MasterDataW / SlaveDataW;
+  localparam int unsigned SlaveWordByteNum = S_DW / 8;
+  localparam int unsigned WordNum = M_DW / S_DW;
   localparam int unsigned WordIdxW = unsigned'($clog2(WordNum));
   localparam int unsigned WordByteOffsW = unsigned'($clog2(SlaveWordByteNum));
 
@@ -75,38 +76,38 @@ module xheep_obi_splitter #(
     PENDING
   } fsm_state_t;
   fsm_state_t curr_state, next_state;
-  logic                                         fsm_req;
-  logic                                         fsm_gnt;
-  logic                                         fsm_sel_buff;
-  logic                                         next_req_valid;
+  logic                                      fsm_req;
+  logic                                      fsm_gnt;
+  logic                                      fsm_sel_buff;
+  logic                                      next_req_valid;
 
   // Word selector
-  logic [    WordNum-1:0]                       req_valid_d;
-  logic [    WordNum-2:0]                       req_valid_q;
-  logic [    WordNum-1:0]                       req_valid;
-  logic [   WordIdxW-1:0]                       req_idx;
-  logic [    WordNum-1:0]                       req_mask;
+  logic [ WordNum-1:0]                       req_valid_d;
+  logic [ WordNum-2:0]                       req_valid_q;
+  logic [ WordNum-1:0]                       req_valid;
+  logic [WordIdxW-1:0]                       req_idx;
+  logic [ WordNum-1:0]                       req_mask;
 
   // Master request register
-  logic                                         master_req_reg_en;
-  logic [    WordNum-2:0][SlaveWordByteNum-1:0] master_req_be_q;
-  logic                                         master_req_we_q;
-  logic [MasterAddrW-1:0]                       master_req_addr_q;
-  logic [    WordNum-2:0][      SlaveDataW-1:0] master_req_wdata_q;
-  logic [    WordNum-1:0][SlaveWordByteNum-1:0] master_req_be;
-  logic [    WordNum-1:0][      SlaveDataW-1:0] master_req_wdata;
+  logic                                      master_req_reg_en;
+  logic [ WordNum-2:0][SlaveWordByteNum-1:0] master_req_be_q;
+  logic                                      master_req_we_q;
+  logic [    M_AW-1:0]                       master_req_addr_q;
+  logic [ WordNum-2:0][            S_DW-1:0] master_req_wdata_q;
+  logic [ WordNum-1:0][SlaveWordByteNum-1:0] master_req_be;
+  logic [ WordNum-1:0][            S_DW-1:0] master_req_wdata;
 
   // Last word flip-flop
-  logic                                         req_reg_en;
-  logic                                         req_reg_clr;
-  logic                                         last_word_q;
+  logic                                      req_reg_en;
+  logic                                      req_reg_clr;
+  logic                                      last_word_q;
 
   // Master response data register
-  logic [   WordIdxW-1:0]                       rsp_idx_q;
-  logic                                         rsp_reg_en;
-  logic                                         rsp_reg_clr;
-  logic [    WordNum-2:0][      SlaveDataW-1:0] rdata_q;
-  logic [    WordNum-1:0][      SlaveDataW-1:0] master_rdata;
+  logic [WordIdxW-1:0]                       rsp_idx_q;
+  logic                                      rsp_reg_en;
+  logic                                      rsp_reg_clr;
+  logic [ WordNum-2:0][            S_DW-1:0] rdata_q;
+  logic [ WordNum-1:0][            S_DW-1:0] master_rdata;
 
   // ----------------------
   // SPLITTER CONTROL LOGIC
@@ -246,11 +247,11 @@ module xheep_obi_splitter #(
       master_req_we_q    <= master_req_i.we;
       master_req_be_q    <= master_req_i.be[WordNum*SlaveWordByteNum-1:SlaveWordByteNum];
       master_req_addr_q  <= master_req_i.addr;
-      master_req_wdata_q <= master_req_i.wdata[WordNum*SlaveDataW-1:SlaveDataW];
+      master_req_wdata_q <= master_req_i.wdata[WordNum*S_DW-1:S_DW];
     end
   end
   assign master_req_be    = {master_req_be_q, {SlaveWordByteNum{1'b0}}};
-  assign master_req_wdata = {master_req_wdata_q, {SlaveDataW{1'b0}}};
+  assign master_req_wdata = {master_req_wdata_q, {S_DW{1'b0}}};
 
   // Slave request multiplexer
   // -------------------------
@@ -259,8 +260,8 @@ module xheep_obi_splitter #(
       slave_req_o.we = master_req_we_q;
       slave_req_o.be = master_req_be[req_idx];
       slave_req_o.addr = {
-        {SlaveAddrW - MasterAddrW{1'b0}},
-        master_req_addr_q[MasterAddrW-1:WordByteOffsW+WordIdxW],
+        {S_AW - M_AW{1'b0}},
+        master_req_addr_q[M_AW-1:WordByteOffsW+WordIdxW],
         req_idx,
         master_req_addr_q[WordByteOffsW-1:0]
       };
@@ -269,12 +270,12 @@ module xheep_obi_splitter #(
       slave_req_o.we = master_req_i.we;
       slave_req_o.be = master_req_i.be[req_idx*SlaveWordByteNum+:SlaveWordByteNum];
       slave_req_o.addr = {
-        {SlaveAddrW - MasterAddrW{1'b0}},
-        master_req_i.addr[MasterAddrW-1:WordByteOffsW+WordIdxW],
+        {S_AW - M_AW{1'b0}},
+        master_req_i.addr[M_AW-1:WordByteOffsW+WordIdxW],
         req_idx,
         master_req_i.addr[WordByteOffsW-1:0]
       };
-      slave_req_o.wdata = master_req_i.wdata[req_idx*SlaveDataW+:SlaveDataW];
+      slave_req_o.wdata = master_req_i.wdata[req_idx*S_DW+:S_DW];
     end
   end
   assign slave_req_o.req = fsm_req;
@@ -300,7 +301,7 @@ module xheep_obi_splitter #(
 
   // Master response generation
   always_comb begin : master_rdata_enc
-    master_rdata            = {{SlaveDataW{1'b0}}, rdata_q};
+    master_rdata            = {{S_DW{1'b0}}, rdata_q};
     master_rdata[rsp_idx_q] = slave_rsp_i.rdata;
   end
 
