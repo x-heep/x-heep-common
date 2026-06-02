@@ -168,9 +168,7 @@ module xheep_obi_cdc_src #(
         .async_data_o(async_data_o)
       );
     end else begin : gen_req_elab_error
-      $error(
-          "Unknown CDC_KIND %s", CDC_KIND
-      );
+      $error("Unknown CDC_KIND %s", CDC_KIND);
     end
   endgenerate
 
@@ -204,9 +202,7 @@ module xheep_obi_cdc_src #(
         .async_data_i(async_data_i)
       );
     end else begin : gen_rsp_elab_error
-      $error(
-          "Unknown CDC_KIND %s", CDC_KIND
-      );
+      $error("Unknown CDC_KIND %s", CDC_KIND);
     end
   endgenerate
 endmodule

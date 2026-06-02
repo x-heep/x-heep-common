@@ -65,6 +65,6 @@ targets:
       veriblelint:
         ruleset: default
         verible_lint_args:
-        - '--waiver_files=../../../hw/misc/verible-lint.waiver'
+        - '--waiver_files=../../../hw/obi/misc/verible.waiver'
         rules:
         - 'line-length=length:150'
