@@ -1,0 +1,3 @@
+waive --rule=explicit-parameter-storage-type --location=".*xheep_obi_cdc_src.sv"
+waive --rule=explicit-parameter-storage-type --location=".*xheep_obi_cdc_dst.sv"
+waive --rule=explicit-parameter-storage-type --location=".*xheep_obi_cdc.sv"

@@ -16,19 +16,19 @@
 
 module xheep_obi_cdc #(
   // Clock domain crossing protocol type
-  parameter string CDC_KIND  = "cdc_2phase",  // "cdc_2phase" or "cdc_4phase"
+  parameter CDC_KIND = "cdc_2phase",  // "cdc_2phase" or "cdc_4phase"
   // OBI request type, expected to contain:
   //    logic           req     > request
   //    logic           we      > write enable
   //    logic [BEW-1:0] be      > byte enable
   //    logic  [AW-1:0] addr    > target address
   //    logic  [DW-1:0] wdata   > data to write
-  parameter type   obi_req_t = logic,
+  parameter type obi_req_t = logic,
   // OBI response type, expected to contain:
   //    logic           gnt     > request accepted
   //    logic           rvalid  > read data is valid
   //    logic  [DW-1:0] rdata   > read data
-  parameter type   obi_rsp_t = logic
+  parameter type obi_rsp_t = logic
 ) (
   // Source domain clock and reset
   input logic src_clk_i,
