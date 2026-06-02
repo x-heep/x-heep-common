@@ -65,8 +65,8 @@ module xheep_mem_demux #(
   // INTERNAL SIGNALS
   // ----------------
   logic [VrfLineWordAddrW-1:0]           vrf_word_addr[DELAY+1];
-  logic [  VrfLineWordNum-1:0][S_DW-1:0] vrf_rdata;
-  logic [  VrfLineWordNum-1:0][S_DW-1:0] vrf_wdata;
+  logic [  VrfLineWordNum-1:0][M_DW-1:0] vrf_rdata;
+  logic [  VrfLineWordNum-1:0][M_DW-1:0] vrf_wdata;
 
   // In case the VRF data width is larger (i.e., a multiple) than the OBI data
   // width, the OBI word offset within the VRF word must be delayed as well.
