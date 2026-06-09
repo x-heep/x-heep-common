@@ -4,7 +4,7 @@ This repository contains a collection of common SystemVerilog RTL modules design
 
 The goal is to provide simple, reusable, and well-maintained modules—such as bus bridges or adapters—that simplify the process of building and extending your own SoC.
 
-## Currently Included Modules
+## Included Modules
 
 | Module Name | Path | Description |
 | ----------- | ---- | ----------- |
@@ -16,13 +16,30 @@ The goal is to provide simple, reusable, and well-maintained modules—such as b
 | `xheep_obi_cdc_src` | `hw/obi/xheep_obi_cdc_src.sv` | Source side of the OBI CDC. |
 | `xheep_obi_cdc_dst` | `hw/obi/xheep_obi_cdc_dst.sv` | Destination side of the OBI CDC. |
 
+## Utilities
+
+### Register Generator (`reg-generator`)
+
+| Tool | Path | Description |
+| ---- | ---- | ----------- |
+| `reg-generator` | `util/reg-generator/` | FuseSoC generator wrapping [OpenTitan's `regtool.py`](https://opentitan.org/book/util/reggen/index.html) to automate the generation of control-register infrastructure for hardware peripherals. |
+
+The generator is invoked via FuseSoC's `generate` mechanism (generator name: `regtool`, core: `x-heep:util:reg-generator`). Given an HJSON register description, it produces:
+
+- SystemVerilog RTL (`*_reg_pkg.sv`, `*_reg_top.sv`)
+- C register-defines header (`*_regs.h`)
+- Markdown register documentation
+
+Optionally, it also renders [Mako](https://www.makotemplates.org/) `.tpl` templates before invoking `regtool` and can call a user-provided structs generator to emit a typed C structs header. See [`util/reg-generator/reg-generator.md`](util/reg-generator/reg-generator.md) for full usage and parameter documentation.
+
 ## FuseSoC Integration
 
 This repository supports integration in parent projects through [FuseSoC](https://github.com/olofk/fusesoc), a package manager and build abstraction tool for HDL code. Each category of modules provides its own `.core` file, allowing users to import only the necessary components as dependencies in their projects:
 
 *   **`xheep:common:mem`**: Includes memory-related modules like `xheep_mem_demux`.
 *   **`xheep:common:obi`**: Includes OBI-related modules like splitters, bridges, and CDC.
-*   **`xheep:common:all`**: A top-level core that aggregates all modules in the repository.
+*   **`xheep:common:all`**: A top-level core that aggregates all modules above in the repository.
+*   **`xheep:util:reg-generator`**: The register generator utility; add as a dependency to any peripheral core that uses the `regtool` generator.
 
 These FuseSoC cores automatically handle dependencies (such as `pulp-platform.org::common_cells`) and include pre-configured Verilator waivers to ensure a smooth, lint-free integration into your flow.
 

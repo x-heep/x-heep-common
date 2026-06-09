@@ -55,7 +55,7 @@ def get_regtool_path(cfg: dict) -> str:
             regtool_path = os.path.join(cfg["files_root"], cfg["parameters"]["regtool_path"])
         except (KeyError, IndexError, TypeError):
             # 3. Fallback to default path within X-HEEP
-            regtool_path = os.path.join(cfg["cores"]["x-heep:util:reg-generator:0.1.0"]["core_root"], "..", "..", "hw", "vendor", "pulp_platform", "register_interface", "vendor", "lowrisc_opentitan", "util", "regtool.py")
+            regtool_path = os.path.join(cfg["cores"]["xheep:util:reg-generator:0.1.0"]["core_root"], "..", "..", "hw", "vendor", "pulp_platform", "register_interface", "vendor", "lowrisc_opentitan", "util", "regtool.py")
 
     if not os.path.isfile(regtool_path):
         print(

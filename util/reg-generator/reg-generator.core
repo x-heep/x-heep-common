@@ -15,7 +15,7 @@ CAPI=2:
 # Date: 08/06/2026
 # Description: FuseSoC wrapper for OpenTitan's RegTool
 
-name: "x-heep:util:reg-generator:0.1.0"
+name: "xheep:util:reg-generator:0.1.0"
 description: "FuseSoC wrapper for OpenTitan's RegTool"
 
 # Generators
