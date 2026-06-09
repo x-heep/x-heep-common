@@ -4,7 +4,7 @@ A FuseSoC generator wrapping [OpenTitan's `regtool.py`](https://opentitan.org/bo
 
 ## Quick start
 
-Add `x-heep:util:reg-generator` as a dependency of your peripheral core and declare a `generate` block that invokes the `regtool` generator:
+Add `xheep:util:reg-generator` as a dependency of your peripheral core and declare a `generate` block that invokes the `regtool` generator:
 
 ```yaml
 CAPI=2:
@@ -13,7 +13,7 @@ name: "vendor:ip:my_peripheral"
 filesets:
   files_rtl:
     depend:
-      - x-heep:util:reg-generator
+      - xheep:util:reg-generator
     files:
       - rtl/my_peripheral.sv
     file_type: systemVerilogSource
@@ -88,7 +88,7 @@ parameters:                  # key-value pairs from your 'generate' block
 vlnv: vendor:ip:my_peripheral-my-peripheral-regs:0  # VLNV of this generator instance
 toplevel: vendor:systems:my_soc:1.0.0               # top-level core of the current FuseSoC run
 cores:                       # full dependency graph — all cores with their resolved paths
-  x-heep:util:reg-generator:0.1.0:
+  xheep:util:reg-generator:0.1.0:
     core_root: /absolute/path/to/reg-generator
     ...
   ...
