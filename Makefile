@@ -52,8 +52,9 @@ help:
 # ---------------------------
 # Code formatting
 .PHONY: format
-format: | .check-verible-format
+format: | .check-verible-format .check-python
 	fusesoc run --no-export --target format xheep:common:all
+	python3 -m black util/reg-generator/reg-generator.py
 
 # Static analysis (linting)
 .PHONY: lint
@@ -88,3 +89,4 @@ define CHECK_PROGRAM
 endef
 $(eval $(call CHECK_PROGRAM,verible-format,verible-verilog-format))
 $(eval $(call CHECK_PROGRAM,verible-lint,verible-verilog-lint))
+$(eval $(call CHECK_PROGRAM,python,python3))
