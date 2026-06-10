@@ -410,7 +410,7 @@ def get_expected_outputs(cfg: dict) -> list:
     return outputs
 
 
-def compute_cache_key(file_path: str, kwargs: dict | None = None) -> str:
+def compute_cache_key(file_path: str, kwargs: dict = None) -> str:
     """Returns a SHA-256 hex digest of the file content and optional rendering kwargs."""
     h = hashlib.sha256()
     with open(file_path, "rb") as f:
