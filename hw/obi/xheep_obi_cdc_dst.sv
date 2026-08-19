@@ -21,19 +21,19 @@
 
 module xheep_obi_cdc_dst #(
   // Clock domain crossing protocol type
-  parameter int unsigned CDC_KIND = 32'd2,  // 2 for "cdc_2phase" or 4 for "cdc_4phase"
+  parameter int unsigned CDC_KIND  = 32'd2,  // 2 for "cdc_2phase" or 4 for "cdc_4phase"
   // OBI request type, expected to contain:
   //    logic           req     > request
   //    logic           we      > write enable
   //    logic [BEW-1:0] be      > byte enable
   //    logic  [AW-1:0] addr    > target address
   //    logic  [DW-1:0] wdata   > data to write
-  parameter type obi_req_t = logic,
+  parameter type         obi_req_t = logic,
   // OBI response type, expected to contain:
   //    logic           gnt     > request accepted
   //    logic           rvalid  > read data is valid
   //    logic  [DW-1:0] rdata   > read data
-  parameter type obi_rsp_t = logic
+  parameter type         obi_rsp_t = logic
 ) (
   // Destination domain clock and reset
   input logic dst_clk_i,
@@ -97,7 +97,7 @@ module xheep_obi_cdc_dst #(
         if (dst_rsp_i.rvalid) begin
           if (dst_cdc_rsp_ready) fsm_state_d = IDLE;
           else fsm_state_d = WAIT_CDC;
-        end
+        end else fsm_state_d = WAIT_RVALID;
       end
       WAIT_CDC: begin
         // Wait for the response CDC to be ready and forward the sampled
